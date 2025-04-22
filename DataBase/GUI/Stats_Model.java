@@ -101,4 +101,8 @@ public class Stats_Model extends AbstractTableModel {
 
         }
     }
+
+    public Game_Stats getGameStats(int row) {
+        return data.get(row);
+    }
 }

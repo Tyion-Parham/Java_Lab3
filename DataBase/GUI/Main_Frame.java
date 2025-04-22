@@ -8,7 +8,11 @@ import java.util.List;
 import javax.swing.*;
 
 public class Main_Frame extends JFrame {
-    public static void main(String[] args) {
+    private Stats_Facade statsFacade;
+
+    public Main_Frame() {
+        this.statsFacade = new Stats_Facade();
+
         JFrame statsFrame = new JFrame("NBA Stats");
         statsFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -16,14 +20,11 @@ public class Main_Frame extends JFrame {
         mainPanel.setPreferredSize(new Dimension(1313, 700));
         mainPanel.setBackground(Color.GRAY);
 
-        String statsFile = "Game_Stat_Example.txt";
-        List<Game_Stats> playerStats = Main.processRawStatsFile(statsFile);
+        // Use facade to get the SortPanel and StatsTable
+        Sort_Panel sortPanel = statsFacade.getSortPanel();
+        Stats_Table statsTable = statsFacade.getStatsTable();
 
-        Stats_Table statsTable = new Stats_Table(playerStats);
-        statsTable.setPreferredSize(new Dimension(1276, 650));
-
-        Sort_Panel sortPanel = new Sort_Panel(statsTable);
-
+        mainPanel.setLayout(new BorderLayout());
         mainPanel.add(sortPanel, BorderLayout.NORTH);
         mainPanel.add(statsTable, BorderLayout.CENTER);
 
@@ -31,5 +32,9 @@ public class Main_Frame extends JFrame {
         statsFrame.getContentPane().add(mainPanel);
         statsFrame.pack();
         statsFrame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new Main_Frame();
     }
 }
